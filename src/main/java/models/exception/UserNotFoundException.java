@@ -3,7 +3,7 @@ package models.exception;
 /**
  * Created by laurence on 3/17/15.
  */
-public class UserNotFoundException extends Exception{
+public class UserNotFoundException extends RuntimeException {
   public UserNotFoundException() {
 
   }
@@ -11,6 +11,10 @@ public class UserNotFoundException extends Exception{
   public UserNotFoundException(String message) {
     super(message);
 
+  }
+
+  public UserNotFoundException(Integer id) {
+    super("User: " + id + " not found");
   }
 
   public UserNotFoundException(Throwable cause) {

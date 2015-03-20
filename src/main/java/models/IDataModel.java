@@ -1,7 +1,8 @@
 package models;
 
-import java.util.Iterator;
-import java.util.List;
+import org.nd4j.linalg.api.ndarray.INDArray;
+
+import java.util.Map;
 
 /**
  * Created by laurence on 3/17/15.
@@ -11,53 +12,77 @@ public interface IDataModel {
   /**
    * @Returns returns all user ids in the model, in order
    */
-  public Iterator<Long> userIds();
+  public Long[] userIds();
+
+  /**
+   * @Returns returns all item ids in the model, in order
+   */
+  public Long[] itemIds();
 
   /**
    * @Param user id of the user to obtain preference values for
-   * @Param orderById if false order by magnitude of returned values
    * @Returns an array of the users preference values
    */
-  public double[] preferenceValuesFromUsers(Long user, boolean orderById);
+  public INDArray preferenceValuesFromUser(Long user);
 
   /**
-   * @Param user id of the user to obtain preference values for
-   * @Returns an array of the users preference values
+   * @Return return a map of the preference items and their values
    */
-  public double[] preferenceValuesFromUsers(Long user);
+  public Map<Long, Double> preferencesFromUser(Long user, boolean orderById);
+
+  /**
+   * @Return return a map of the preference items and their values
+   */
+  public Map<Long, Double> preferencesFromUser(Long user );
 
   /**
    * @Param user id of the user to obtain items for
    * @Param orderById if false order by the magnitude of the returned values
    * @Returns an array of the items the user expressed preference for
    */
-  public long[] itemsFromUser(Long user, boolean orderById);
+  public Long[] itemsFromUser(Long user, boolean orderById);
 
   /**
    * @Param user id of the user to obtain items for
    * @Return an array of the items the user expressed preference for
-   **/
-  public long[] itemsFromUser(Long user);
+   */
+  public Long[] itemsFromUser(Long user);
 
-  public double[] preferencesForItem(Long item, boolean orderById);
+  public Map<Long, Double> preferencesForItem(Long item, boolean orderById);
 
-  public double preferenceValue(Long user, Long item);
+  public Map<Long, Double> preferencesForItem(Long item);
 
-  public long preferenceTime(Long user, Long item);
+  public Double preferenceValue(Long user, Long item);
 
-  public long usersCount();
+  public Long preferenceTime(Long user, Long item);
 
-  public long itemsCount();
+  /**
+   * @Return returns the count of unique the users in the dataset.
+   */
+  public Integer usersCount();
+
+  /**
+   * @Return returns the count of unique the items in the dataset.
+   */
+  public Integer itemsCount();
 
   public void setPreference(Long user, Long item, double value);
 
   public void removePreference(Long user, Long item);
 
+  /**
+   * does the inherited class contain preference values or is it boolean data
+   */
   public boolean hasPreferenceValues();
 
+  /**
+   * @Return returns the maximum value in the preference table
+   */
   public double maxPreferenceValue();
 
+  /**
+   * @Return returns the smallest value in the preference table
+   */
   public double minPreferenceValue();
-
 
 }
